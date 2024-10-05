@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Scheduling</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Process Scheduling</h1>
+
+        <!-- Input Form -->
+        <div class="form-container">
+            <h2>Add Process</h2>
+            <form id="processForm">
+                <label for="burstTime">Burst Time:</label>
+                <input type="number" id="burstTime" required placeholder="Enter Burst Time">
+
+                <label for="arrivalTime">Arrival Time:</label>
+                <input type="number" id="arrivalTime" required placeholder="Enter Arrival Time">
+
+                <label for="priority">Priority:</label>
+                <input type="number" id="priority" required placeholder="Enter Priority">
+
+                <button type="submit">Add Process</button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-container">
+            <h2>Results</h2>
+            <div class="buttons">
+                <button onclick="runFCFS()">Run FCFS</button>
+                <button onclick="runSJF()">Run SJF</button>
+            </div>
+
+            <!-- Display context switches -->
+            <p id="contextSwitches">Context Switches: 0</p>
+
+            <table id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Process ID</th>
+                        <th>Burst Time</th>
+                        <th>Arrival Time</th>
+                        <th>Priority</th>
+                        <th>Waiting Time</th>
+                        <th>Turnaround Time</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
