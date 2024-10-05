@@ -58,7 +58,15 @@ function resetProcessTimes() {
   });
 }
 
-// FCFS Scheduling Algorithm
+// Reset the table and process list
+function resetTable() {
+  processes = [];
+  processId = 1;
+  contextSwitches = 0;
+  displayProcesses(processes);
+  document.getElementById("contextSwitches").innerText = "Context Switches: 0";
+}
+
 function runFCFS() {
   resetProcessTimes(); // Reset times before running FCFS
   contextSwitches = 0; // Reset context switches
@@ -77,36 +85,54 @@ function runFCFS() {
   });
 
   displayProcesses(processes);
+  displayAverages(); // Menampilkan hasil analisis
 }
 
-// SJF Scheduling Algorithm
 function runSJF() {
   resetProcessTimes(); // Reset times before running SJF
   contextSwitches = 0; // Reset context switches
   let currentTime = 0;
-  let completed = 0;
+  let remainingProcesses = [...processes]; // Copy processes array to keep track of remaining processes
 
-  while (completed < processes.length) {
-    let sjfQueue = processes.filter(
-      (p) => p.arrivalTime <= currentTime && p.turnaroundTime === 0
-    );
-    if (sjfQueue.length > 0) {
-      sjfQueue.sort((a, b) => a.burstTime - b.burstTime);
-      let shortestJob = sjfQueue[0];
+  remainingProcesses.sort((a, b) => a.burstTime - b.burstTime);
 
-      if (completed > 0) {
-        contextSwitches++; // Increment context switch
-      }
+  while (remainingProcesses.length > 0) {
+    let process = remainingProcesses.shift();
 
-      shortestJob.waitingTime = currentTime - shortestJob.arrivalTime;
-      shortestJob.turnaroundTime =
-        shortestJob.waitingTime + shortestJob.burstTime;
-      currentTime += shortestJob.burstTime;
-      completed++;
-    } else {
-      currentTime++;
+    if (process.arrivalTime > currentTime) {
+      currentTime = process.arrivalTime; // Adjust current time if process arrives later
     }
+
+    contextSwitches++;
+    process.waitingTime = currentTime - process.arrivalTime;
+    process.turnaroundTime = process.waitingTime + process.burstTime;
+    currentTime += process.burstTime;
   }
 
   displayProcesses(processes);
+  displayAverages(); // Menampilkan hasil analisis
+}
+
+// Menghitung Average Waiting Time dan Turnaround Time
+function calculateAverages() {
+  let totalWaitingTime = 0;
+  let totalTurnaroundTime = 0;
+
+  processes.forEach((process) => {
+    totalWaitingTime += process.waitingTime;
+    totalTurnaroundTime += process.turnaroundTime;
+  });
+
+  const averageWaitingTime = (totalWaitingTime / processes.length).toFixed(2);
+  const averageTurnaroundTime = (totalTurnaroundTime / processes.length).toFixed(2);
+
+  return { averageWaitingTime, averageTurnaroundTime };
+}
+
+// Menampilkan hasil Average Waiting Time dan Turnaround Time
+function displayAverages() {
+  const { averageWaitingTime, averageTurnaroundTime } = calculateAverages();
+  
+  document.getElementById('avgWaitingTime').innerText = `Average Waiting Time: ${averageWaitingTime}`;
+  document.getElementById('avgTurnaroundTime').innerText = `Average Turnaround Time: ${averageTurnaroundTime}`;
 }
