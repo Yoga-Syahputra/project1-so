@@ -1,9 +1,8 @@
 class Process {
-  constructor(id, burstTime, arrivalTime, priority) {
+  constructor(id, burstTime, arrivalTime) {
     this.id = id;
     this.burstTime = burstTime;
     this.arrivalTime = arrivalTime;
-    this.priority = priority;
     this.waitingTime = 0;
     this.turnaroundTime = 0;
   }
@@ -18,9 +17,8 @@ document.getElementById("processForm").addEventListener("submit", (e) => {
 
   let burstTime = parseInt(document.getElementById("burstTime").value);
   let arrivalTime = parseInt(document.getElementById("arrivalTime").value);
-  let priority = parseInt(document.getElementById("priority").value);
 
-  processes.push(new Process(processId++, burstTime, arrivalTime, priority));
+  processes.push(new Process(processId++, burstTime, arrivalTime));
   displayProcesses(processes);
 
   // Reset the form
@@ -37,7 +35,6 @@ function displayProcesses(processes) {
                     <td>${process.id}</td>
                     <td>${process.burstTime}</td>
                     <td>${process.arrivalTime}</td>
-                    <td>${process.priority}</td>
                     <td>${process.waitingTime}</td>
                     <td>${process.turnaroundTime}</td>
                    </tr>`;
