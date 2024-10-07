@@ -1,69 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>College Task Scheduler</title>
+    <title>CPU Process Scheduling</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet" />
-</head>
-<body>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="container">
-        <header>
-            <h1>College Task Scheduler</h1>
-            <p>Manage your college tasks using FCFS (First Come First Serve) or SJF (Shortest Job First) scheduling.</p>
-        </header>
+      <header>
+        <h1>CPU Process Scheduling</h1>
+        <p>
+          Simulate different CPU scheduling algorithms such as FCFS and SJF.
+        </p>
+      </header>
 
-        <section class="form-container">
-            <h2>Add a New Task</h2>
-            <form id="taskForm">
-                <div class="input-group">
-                    <label for="taskName">Task Name:</label>
-                    <input type="text" id="taskName" required placeholder="Enter Task Name" />
-                </div>
-                <div class="input-group">
-                    <label for="estimatedTime" title="Equivalent to Burst Time in scheduling algorithms">Estimated Time (hours):</label>
-                    <input type="number" id="estimatedTime" required placeholder="Enter Estimated Time" min="1" />
-                </div>
-                <div class="input-group">
-                    <label for="deadline" title="Equivalent to Arrival Time in scheduling algorithms">Deadline:</label>
-                    <input type="datetime-local" id="deadline" required />
-                </div>
-                <button type="submit">Add Task</button>
-            </form>
-        </section>
+      <!-- Input Form Section -->
+      <section class="form-container">
+        <h2>Add a New Process</h2>
+        <form id="processForm">
+          <div class="input-group">
+            <label for="burstTime">Burst Time:</label>
+            <input
+              type="number"
+              id="burstTime"
+              required
+              placeholder="Enter Burst Time"
+              min="0"
+            />
+          </div>
+          <div class="input-group">
+            <label for="arrivalTime">Arrival Time:</label>
+            <input
+              type="number"
+              id="arrivalTime"
+              required
+              placeholder="Enter Arrival Time"
+              min="0"
+            />
+          </div>
+          <button type="submit">Add Process</button>
+        </form>
+      </section>
 
-        <div class="buttons">
-            <button class="fcfs-btn" onclick="runFCFS()">Schedule by Deadline (FCFS)</button>
-            <button class="sjf-btn" onclick="runSJF()">Schedule by Time (SJF)</button>
-            <button class="reset-btn" onclick="resetTable()">Reset</button>
-        </div>
+      <!-- Control Buttons Section -->
+      <div class="buttons">
+        <button class="fcfs-btn" onclick="runFCFS()">Run FCFS</button>
+        <button class="sjf-btn" onclick="runSJF()">Run SJF</button>
+        <button class="reset-btn" onclick="resetTable()">Reset</button>
+      </div>
 
-        <div class="summary">
-            <div id="totalTasks">Total Tasks: 0</div>
-            <div id="avgCompletionTime" title="Turnaround Time: Total time taken from arrival to completion">Average Completion Time: 0 hours</div>
-        </div>
+      <!-- Summary Section -->
+      <div class="summary">
+        <div id="contextSwitches">Context Switches: 0</div>
+        <div id="avgWaitingTime">Average Waiting Time: 0</div>
+        <div id="avgTurnaroundTime">Average Turnaround Time: 0</div>
+      </div>
 
-        <table id="resultsTable">
-            <thead>
-                <tr>
-                    <th>Task ID</th>
-                    <th>Task Name</th>
-                    <th title="Equivalent to Burst Time">Estimated Time (hours)</th>
-                    <th title="Equivalent to Arrival Time">Deadline</th>
-                    <th title="Waiting Time: Time before task starts">Start Time</th>
-                    <th title="Turnaround Time: Time from task arrival to completion">Completion Time</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+      <!-- Results Table Section -->
+      <table id="resultsTable">
+        <thead>
+          <tr>
+            <th>Process ID</th>
+            <th>Burst Time</th>
+            <th>Arrival Time</th>
+            <th>Waiting Time</th>
+            <th>Turnaround Time</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
 
-        <div class="gantt-container">
-            <h2>Schedule Timeline</h2>
-            <div id="ganttChart"></div>
-        </div>
+      <!-- Gantt Chart Section -->
+      <div class="gantt-container">
+        <h2>Gantt Chart</h2>
+        <div id="ganttChart"></div>
+      </div>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
