@@ -1,135 +1,167 @@
-class Process {
-  constructor(id, burstTime, arrivalTime) {
+class Task {
+  constructor(id, name, estimatedTime, deadline) {
     this.id = id;
-    this.burstTime = burstTime;
-    this.arrivalTime = arrivalTime;
-    this.waitingTime = 0;
-    this.turnaroundTime = 0;
+    this.name = name;
+    this.estimatedTime = estimatedTime;
+    this.deadline = new Date(deadline);
+    this.startTime = null;
+    this.completionTime = null;
   }
 }
 
-let processes = [];
-let processId = 1;
-let contextSwitches = 0;
+let tasks = [];
+let taskId = 1;
 
-document.getElementById("processForm").addEventListener("submit", (e) => {
+document.getElementById("taskForm").addEventListener("submit", (e) => {
   e.preventDefault();
 
-  let burstTime = parseInt(document.getElementById("burstTime").value);
-  let arrivalTime = parseInt(document.getElementById("arrivalTime").value);
+  let taskName = document.getElementById("taskName").value;
+  let estimatedTime = parseInt(document.getElementById("estimatedTime").value);
+  let deadline = document.getElementById("deadline").value;
 
-  processes.push(new Process(processId++, burstTime, arrivalTime));
-  displayProcesses(processes);
+  tasks.push(new Task(taskId++, taskName, estimatedTime, deadline));
+  displayTasks(tasks);
 
-  // Reset the form
-  document.getElementById("processForm").reset();
+  document.getElementById("taskForm").reset();
 });
 
-// Display the list of processes
-function displayProcesses(processes) {
+function displayTasks(tasks) {
   let tableBody = document.querySelector("#resultsTable tbody");
   tableBody.innerHTML = "";
 
-  processes.forEach((process) => {
+  tasks.forEach((task) => {
     let row = `<tr>
-                    <td>${process.id}</td>
-                    <td>${process.burstTime}</td>
-                    <td>${process.arrivalTime}</td>
-                    <td>${process.waitingTime}</td>
-                    <td>${process.turnaroundTime}</td>
+                    <td>${task.id}</td>
+                    <td class="task-name">${task.name}</td>
+                    <td>${task.estimatedTime}</td>
+                    <td class="${isDeadlineApproaching(
+                      task.deadline
+                    )}">${formatDate(task.deadline)}</td>
+                    <td>${
+                      task.startTime
+                        ? formatDate(task.startTime)
+                        : "Not started"
+                    }</td>
+                    <td>${
+                      task.completionTime
+                        ? formatDate(task.completionTime)
+                        : "Not completed"
+                    }</td>
                    </tr>`;
     tableBody.innerHTML += row;
   });
 
-  // Display context switches
   document.getElementById(
-    "contextSwitches"
-  ).innerText = `Context Switches: ${contextSwitches}`;
-}
-
-// Reset all processes' waiting and turnaround times
-function resetProcessTimes() {
-  processes.forEach((process) => {
-    process.waitingTime = 0;
-    process.turnaroundTime = 0;
-  });
-}
-
-// Reset the table and process list
-function resetTable() {
-  processes = [];
-  processId = 1;
-  contextSwitches = 0;
-  displayProcesses(processes);
-  document.getElementById("contextSwitches").innerText = "Context Switches: 0";
+    "totalTasks"
+  ).innerText = `Total Tasks: ${tasks.length}`;
 }
 
 function runFCFS() {
-  resetProcessTimes(); // Reset times before running FCFS
-  contextSwitches = 0; // Reset context switches
-  let currentTime = 0;
+  resetTaskTimes();
+  let currentDate = new Date();
 
-  processes.sort((a, b) => a.arrivalTime - b.arrivalTime);
+  // Sort tasks by deadline
+  tasks.sort((a, b) => a.deadline - b.deadline);
 
-  processes.forEach((process, index) => {
-    if (index > 0) {
-      contextSwitches++; // Increment context switch when moving to the next process
-    }
-
-    process.waitingTime = Math.max(0, currentTime - process.arrivalTime);
-    process.turnaroundTime = process.waitingTime + process.burstTime;
-    currentTime += process.burstTime;
+  let schedule = [];
+  tasks.forEach((task) => {
+    task.startTime = new Date(currentDate);
+    task.completionTime = new Date(
+      currentDate.getTime() + task.estimatedTime * 3600000
+    );
+    schedule.push({
+      task: task,
+      duration: task.estimatedTime,
+    });
+    currentDate = task.completionTime;
   });
 
-  displayProcesses(processes);
-  displayAverages(); // Menampilkan hasil analisis
+  calculateAndDisplayAverages();
+  displayTasks(tasks);
+  drawScheduleTimeline(schedule, "FCFS");
 }
 
 function runSJF() {
-  resetProcessTimes(); // Reset times before running SJF
-  contextSwitches = 0; // Reset context switches
-  let currentTime = 0;
-  let remainingProcesses = [...processes]; // Copy processes array to keep track of remaining processes
+  resetTaskTimes();
+  let currentDate = new Date();
 
-  remainingProcesses.sort((a, b) => a.burstTime - b.burstTime);
+  // Sort tasks by estimated time (shortest first)
+  tasks.sort((a, b) => a.estimatedTime - b.estimatedTime);
 
-  while (remainingProcesses.length > 0) {
-    let process = remainingProcesses.shift();
-
-    if (process.arrivalTime > currentTime) {
-      currentTime = process.arrivalTime; // Adjust current time if process arrives later
-    }
-
-    contextSwitches++;
-    process.waitingTime = currentTime - process.arrivalTime;
-    process.turnaroundTime = process.waitingTime + process.burstTime;
-    currentTime += process.burstTime;
-  }
-
-  displayProcesses(processes);
-  displayAverages(); // Menampilkan hasil analisis
-}
-
-// Menghitung Average Waiting Time dan Turnaround Time
-function calculateAverages() {
-  let totalWaitingTime = 0;
-  let totalTurnaroundTime = 0;
-
-  processes.forEach((process) => {
-    totalWaitingTime += process.waitingTime;
-    totalTurnaroundTime += process.turnaroundTime;
+  let schedule = [];
+  tasks.forEach((task) => {
+    task.startTime = new Date(currentDate);
+    task.completionTime = new Date(
+      currentDate.getTime() + task.estimatedTime * 3600000
+    );
+    schedule.push({
+      task: task,
+      duration: task.estimatedTime,
+    });
+    currentDate = task.completionTime;
   });
 
-  const averageWaitingTime = (totalWaitingTime / processes.length).toFixed(2);
-  const averageTurnaroundTime = (totalTurnaroundTime / processes.length).toFixed(2);
-
-  return { averageWaitingTime, averageTurnaroundTime };
+  calculateAndDisplayAverages();
+  displayTasks(tasks);
+  drawScheduleTimeline(schedule, "SJF");
 }
 
-// Menampilkan hasil Average Waiting Time dan Turnaround Time
-function displayAverages() {
-  const { averageWaitingTime, averageTurnaroundTime } = calculateAverages();
-  
-  document.getElementById('avgWaitingTime').innerText = `Average Waiting Time: ${averageWaitingTime}`;
-  document.getElementById('avgTurnaroundTime').innerText = `Average Turnaround Time: ${averageTurnaroundTime}`;
+function drawScheduleTimeline(schedule, type) {
+  const ganttChart = document.getElementById("ganttChart");
+  ganttChart.innerHTML = "";
+
+  schedule.forEach((block) => {
+    const div = document.createElement("div");
+    div.classList.add("gantt-block");
+    div.classList.add(type === "FCFS" ? "gantt-fcfs" : "gantt-sjf");
+
+    div.innerText = `${block.task.name} (${block.duration}h)`;
+    div.style.width = `${block.duration * 20}px`;
+
+    div.title = `Task: ${block.task.name}\nStart: ${formatDate(
+      block.task.startTime
+    )}\nEnd: ${formatDate(block.task.completionTime)}`;
+
+    ganttChart.appendChild(div);
+  });
+}
+
+function calculateAndDisplayAverages() {
+  let totalCompletionTime = tasks.reduce((sum, task) => {
+    return sum + task.estimatedTime;
+  }, 0);
+
+  let avgCompletionTime = (totalCompletionTime / tasks.length).toFixed(2);
+  document.getElementById(
+    "avgCompletionTime"
+  ).innerText = `Average Completion Time: ${avgCompletionTime} hours`;
+}
+
+function resetTaskTimes() {
+  tasks.forEach((task) => {
+    task.startTime = null;
+    task.completionTime = null;
+  });
+}
+
+function resetTable() {
+  tasks = [];
+  taskId = 1;
+  document.querySelector("#resultsTable tbody").innerHTML = "";
+  document.getElementById("totalTasks").innerText = "Total Tasks: 0";
+  document.getElementById("avgCompletionTime").innerText =
+    "Average Completion Time: 0 hours";
+  document.getElementById("ganttChart").innerHTML = "";
+}
+
+function formatDate(date) {
+  return date.toLocaleString();
+}
+
+function isDeadlineApproaching(deadline) {
+  const now = new Date();
+  const timeUntilDeadline = deadline - now;
+  const daysUntilDeadline = timeUntilDeadline / (1000 * 60 * 60 * 24);
+
+  return daysUntilDeadline <= 2 ? "deadline-approaching" : "deadline-safe";
 }
