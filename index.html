@@ -23,11 +23,11 @@
                     <input type="text" id="taskName" required placeholder="Enter Task Name" />
                 </div>
                 <div class="input-group">
-                    <label for="estimatedTime">Estimated Time (hours):</label>
+                    <label for="estimatedTime" title="Equivalent to Burst Time in scheduling algorithms">Estimated Time (hours):</label>
                     <input type="number" id="estimatedTime" required placeholder="Enter Estimated Time" min="1" />
                 </div>
                 <div class="input-group">
-                    <label for="deadline">Deadline:</label>
+                    <label for="deadline" title="Equivalent to Arrival Time in scheduling algorithms">Deadline:</label>
                     <input type="datetime-local" id="deadline" required />
                 </div>
                 <button type="submit">Add Task</button>
@@ -42,7 +42,7 @@
 
         <div class="summary">
             <div id="totalTasks">Total Tasks: 0</div>
-            <div id="avgCompletionTime">Average Completion Time: 0 hours</div>
+            <div id="avgCompletionTime" title="Turnaround Time: Total time taken from arrival to completion">Average Completion Time: 0 hours</div>
         </div>
 
         <table id="resultsTable">
@@ -50,10 +50,10 @@
                 <tr>
                     <th>Task ID</th>
                     <th>Task Name</th>
-                    <th>Estimated Time (hours)</th>
-                    <th>Deadline</th>
-                    <th>Start Time</th>
-                    <th>Completion Time</th>
+                    <th title="Equivalent to Burst Time">Estimated Time (hours)</th>
+                    <th title="Equivalent to Arrival Time">Deadline</th>
+                    <th title="Waiting Time: Time before task starts">Start Time</th>
+                    <th title="Turnaround Time: Time from task arrival to completion">Completion Time</th>
                 </tr>
             </thead>
             <tbody></tbody>

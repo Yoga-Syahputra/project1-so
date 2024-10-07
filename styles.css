@@ -246,3 +246,80 @@ tbody tr:hover {
     background-color: #95a5a6;
 }
 
+/* ... (keep all existing CSS) ... */
+
+/* Adding new styles for tooltips and terminology legend */
+
+/* Terminology Legend Styles */
+.terminology-legend {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-left: 4px solid #3498db;
+}
+
+.terminology-legend h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.terminology-legend ul {
+    list-style-type: none;
+}
+
+.terminology-legend li {
+    margin-bottom: 8px;
+    color: #34495e;
+}
+
+.terminology-legend strong {
+    color: #2980b9;
+}
+
+/* Tooltip Styles */
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip {
+    visibility: hidden;
+    background-color: #34495e;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Table tooltip adjustments */
+th.tooltip-container .tooltip {
+    bottom: auto;
+    top: 125%;
+}
+
+/* Responsive adjustments for tooltips */
+@media (max-width: 768px) {
+    .tooltip {
+        width: 160px;
+        font-size: 12px;
+    }
+    
+    .terminology-legend {
+        padding: 15px;
+    }
+}
