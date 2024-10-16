@@ -38,12 +38,15 @@
       <button class="fcfs-btn" onclick="runFCFS()">Schedule by Deadline (FCFS)</button>
       <button class="sjf-btn" onclick="runSJF()">Schedule by Time (SJF)</button>
       <button class="reset-btn" onclick="resetTable()">Reset</button>
+    <button id="compareButton">Compare Algorithms</button> 
     </div>
 
-    <div class="summary">
-      <div id="totalTasks">Total Tasks: 0</div>
-      <div id="avgCompletionTime">Average Completion Time: 0 hours</div>
-    </div>
+   <div class="summary">
+  <div id="totalTasks">Total Tasks: 0</div>
+  <div id="avgCompletionTime">Average Completion Time: 0 hours</div>
+  <div id="avgWaitingTime">Average Waiting Time: 0 hours</div>
+  <div id="avgTurnaroundTime">Average Turnaround Time: 0 hours</div>
+</div>
 
     <table id="resultsTable">
       <thead>
@@ -54,6 +57,8 @@
           <th>Deadline</th>
           <th>Start Time</th>
           <th>Completion Time</th>
+          <th>Waiting Time</th>
+          <th>Turnaround Time</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -64,6 +69,35 @@
       <div id="ganttChart"></div>
     </div>
   </div>
+
+  <div id="comparisonDiv" style="display: none;">
+      <h3>Algorithm Comparison</h3>
+      <table>
+        <tr>
+          <th>Metric</th>
+          <th>FCFS</th>
+          <th>SJF</th>
+        </tr>
+        <tr>
+          <td>Avg Completion Time</td>
+          <td id="fcfsAvgCompletionTime">0 hours</td>
+          <td id="sjfAvgCompletionTime">0 hours</td>
+        </tr>
+        <tr>
+          <td>Avg Waiting Time</td>
+          <td id="fcfsAvgWaitingTime">0 hours</td>
+          <td id="sjfAvgWaitingTime">0 hours</td>
+        </tr>
+        <tr>
+          <td>Avg Turnaround Time</td>
+          <td id="fcfsAvgTurnaroundTime">0 hours</td>
+          <td id="sjfAvgTurnaroundTime">0 hours</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+
   <script src="script.js"></script>
 </body>
 </html>
