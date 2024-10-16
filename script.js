@@ -60,6 +60,12 @@ function displayTasks(tasks) {
   ).innerText = `Total Tasks: ${tasks.length}`;
 }
 
+/**
+ * Calculates scheduling metrics for each task
+ * Waiting Time = Start Time - Deadline
+ * Turnaround Time = Completion Time - Deadline
+ */
+
 function runFCFS() {
   resetTaskTimes();
   let currentDate = new Date();
@@ -68,12 +74,18 @@ function runFCFS() {
 
   let schedule = [];
   tasks.forEach((task) => {
-    task.waitingTime = (currentDate - task.deadline) / 3600000; 
+
+    currentDate = new Date(
+      Math.max(currentDate.getTime(), task.deadline.getTime())
+    );
+
     task.startTime = new Date(currentDate);
+    task.waitingTime = Math.max(0, (task.startTime - task.deadline) / 3600000);
     task.completionTime = new Date(
       currentDate.getTime() + task.estimatedTime * 3600000
     );
-    task.turnaroundTime = (task.completionTime - task.deadline) / 3600000; 
+    task.turnaroundTime = (task.completionTime - task.deadline) / 3600000;
+
     schedule.push({
       task: task,
       duration: task.estimatedTime,
@@ -93,9 +105,10 @@ function runSJF() {
   tasks.sort((a, b) => a.estimatedTime - b.estimatedTime);
 
   let schedule = [];
+
   tasks.forEach((task) => {
-    task.waitingTime = (currentDate - task.deadline) / 3600000;
     task.startTime = new Date(currentDate);
+    task.waitingTime = Math.max(0, (task.startTime - task.deadline) / 3600000);
     task.completionTime = new Date(
       currentDate.getTime() + task.estimatedTime * 3600000
     );
@@ -201,11 +214,9 @@ function isDeadlineApproaching(deadline) {
   return daysUntilDeadline <= 2 ? "deadline-approaching" : "deadline-safe";
 }
 
-// Fungsi perbandingan algoritma
 function compareAlgorithms() {
   const originalTasks = [...tasks];
 
-  // Jalankan FCFS
   runFCFS();
   const fcfsResults = {
     avgCompletionTime: parseFloat(
@@ -219,7 +230,6 @@ function compareAlgorithms() {
     ),
   };
 
-  // Reset dan jalankan SJF
   tasks = [...originalTasks];
   runSJF();
   const sjfResults = {
@@ -234,7 +244,6 @@ function compareAlgorithms() {
     ),
   };
 
-  // Tampilkan hasil perbandingan di HTML
   document.getElementById(
     "fcfsAvgCompletionTime"
   ).innerText = `${fcfsResults.avgCompletionTime.toFixed(2)} hours`;
@@ -259,7 +268,7 @@ function compareAlgorithms() {
   document.getElementById("comparisonDiv").style.display = "block";
 }
 
-// Tambahkan event listener untuk tombol Compare Algorithms
+
 document
   .getElementById("compareButton")
   .addEventListener("click", compareAlgorithms);
