@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>College Task Scheduler</title>
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>College Task Scheduler</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>College Task Scheduler</h1>
-            <p>Manage your college tasks using FCFS (First Come First Serve) or SJF (Shortest Job First) scheduling.</p>
-        </header>
+  <div class="container">
+    <header>
+      <h1>College Task Scheduler</h1>
+      <p>Manage your college tasks using FCFS (First Come First Serve) or SJF (Shortest Job First) scheduling.</p>
+    </header>
 
-        <section class="form-container">
-            <h2>Add a New Task</h2>
-            <form id="taskForm">
-                <div class="input-group">
-                    <label for="taskName">Task Name:</label>
-                    <input type="text" id="taskName" required placeholder="Enter Task Name" />
-                </div>
-                <div class="input-group">
-                    <label for="estimatedTime">Estimated Time (hours):</label>
-                    <input type="number" id="estimatedTime" required placeholder="Enter Estimated Time" min="1" />
-                </div>
-                <div class="input-group">
-                    <label for="deadline">Deadline:</label>
-                    <input type="datetime-local" id="deadline" required />
-                </div>
-                <button type="submit">Add Task</button>
-            </form>
-        </section>
-
-        <div class="buttons">
-            <button class="fcfs-btn" onclick="runFCFS()">Schedule by Deadline (FCFS)</button>
-            <button class="sjf-btn" onclick="runSJF()">Schedule by Time (SJF)</button>
-            <button class="reset-btn" onclick="resetTable()">Reset</button>
+    <section class="form-container">
+      <h2>Add a New Task</h2>
+      <form id="taskForm">
+        <div class="input-group">
+          <label for="taskName">Task Name:</label>
+          <input type="text" id="taskName" required placeholder="Enter Task Name" />
         </div>
-
-        <div class="summary">
-            <div id="totalTasks">Total Tasks: 0</div>
-            <div id="avgCompletionTime">Average Completion Time: 0 hours</div>
+        <div class="input-group">
+          <label for="estimatedTime">Estimated Time (hours):</label>
+          <input type="number" id="estimatedTime" required placeholder="Enter Estimated Time" min="1" />
         </div>
-
-        <table id="resultsTable">
-            <thead>
-                <tr>
-                    <th>Task ID</th>
-                    <th>Task Name</th>
-                    <th>Estimated Time (hours)</th>
-                    <th>Deadline</th>
-                    <th>Start Time</th>
-                    <th>Completion Time</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <div class="gantt-container">
-            <h2>Schedule Timeline</h2>
-            <div id="ganttChart"></div>
+        <div class="input-group">
+          <label for="deadline">Deadline:</label>
+          <input type="datetime-local" id="deadline" required />
         </div>
+        <button type="submit">Add Task</button>
+      </form>
+    </section>
+
+    <div class="buttons">
+      <button class="fcfs-btn" onclick="runFCFS()">Schedule by Deadline (FCFS)</button>
+      <button class="sjf-btn" onclick="runSJF()">Schedule by Time (SJF)</button>
+      <button class="reset-btn" onclick="resetTable()">Reset</button>
     </div>
-    <script src="script.js"></script>
+
+    <div class="summary">
+      <div id="totalTasks">Total Tasks: 0</div>
+      <div id="avgCompletionTime">Average Completion Time: 0 hours</div>
+    </div>
+
+    <table id="resultsTable">
+      <thead>
+        <tr>
+          <th>Task ID</th>
+          <th>Task Name</th>
+          <th>Estimated Time (hours)</th>
+          <th>Deadline</th>
+          <th>Start Time</th>
+          <th>Completion Time</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="gantt-container">
+      <h2>Schedule Timeline</h2>
+      <div id="ganttChart"></div>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
