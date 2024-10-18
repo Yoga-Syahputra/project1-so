@@ -1,6 +1,5 @@
 ## Project 1 Sistem Operasi
 
----
 - Yoga Syahputra / 2101020105
 - Farel Putra Albana / 2101020057
 - Silvia Indah Maharani / 2101020030
