@@ -235,4 +235,19 @@ tbody tr:hover {
   }
 }
 
+/* Comparison Section Styles */
+#comparisonDiv {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #ecf0f1;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+#comparisonDiv h3 {
+  margin-bottom: 20px;
+}
 

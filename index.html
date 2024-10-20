@@ -12,7 +12,7 @@
   <div class="container">
     <header>
       <h1>College Task Scheduler</h1>
-      <p>Manage your college tasks using FCFS (First Come First Serve) or SJF (Shortest Job First) scheduling.</p>
+      <p>Manage your college tasks using FCFS (First Come First Serve) or SJF (Shortest Job First) Non-Preemptive scheduling.</p>
     </header>
 
     <section class="form-container">
@@ -37,8 +37,8 @@
     <div class="buttons">
       <button class="fcfs-btn" onclick="runFCFS()">Schedule by Deadline (FCFS)</button>
       <button class="sjf-btn" onclick="runSJF()">Schedule by Time (SJF)</button>
+      <button id="compareButton" onclick="compareAlgorithms()">Compare Algorithms</button>
       <button class="reset-btn" onclick="resetTable()">Reset</button>
-    <button id="compareButton">Compare Algorithms</button> 
     </div>
 
    <div class="summary">
@@ -46,6 +46,7 @@
   <div id="avgCompletionTime">Average Completion Time: 0 hours</div>
   <div id="avgWaitingTime">Average Waiting Time: 0 hours</div>
   <div id="avgTurnaroundTime">Average Turnaround Time: 0 hours</div>
+  <div id="contextSwitchOverhead">Context Switch: 0 hours (0 switches)</div>
 </div>
 
     <table id="resultsTable">
@@ -68,35 +69,40 @@
       <h2>Schedule Timeline</h2>
       <div id="ganttChart"></div>
     </div>
-  </div>
+  
 
-  <div id="comparisonDiv" style="display: none;">
-      <h3>Algorithm Comparison</h3>
-      <table>
-        <tr>
-          <th>Metric</th>
-          <th>FCFS</th>
-          <th>SJF</th>
-        </tr>
-        <tr>
-          <td>Avg Completion Time</td>
-          <td id="fcfsAvgCompletionTime">0 hours</td>
-          <td id="sjfAvgCompletionTime">0 hours</td>
-        </tr>
-        <tr>
-          <td>Avg Waiting Time</td>
-          <td id="fcfsAvgWaitingTime">0 hours</td>
-          <td id="sjfAvgWaitingTime">0 hours</td>
-        </tr>
-        <tr>
-          <td>Avg Turnaround Time</td>
-          <td id="fcfsAvgTurnaroundTime">0 hours</td>
-          <td id="sjfAvgTurnaroundTime">0 hours</td>
-        </tr>
-      </table>
+    <div id="comparisonDiv" style="display: none;">
+        <h3>Algorithm Comparison</h3>
+        <table>
+         <tr>
+            <th>Metric</th>
+            <th>FCFS</th>
+            <th>SJF</th>
+         </tr>
+         <tr>
+            <td>Avg Completion Time</td>
+            <td id="fcfsAvgCompletionTime">0 hours</td>
+            <td id="sjfAvgCompletionTime">0 hours</td>
+          </tr>
+          <tr>
+            <td>Avg Waiting Time</td>
+            <td id="fcfsAvgWaitingTime">0 hours</td>
+            <td id="sjfAvgWaitingTime">0 hours</td>
+         </tr>
+          <tr>
+           <td>Avg Turnaround Time</td>
+            <td id="fcfsAvgTurnaroundTime">0 hours</td>
+            <td id="sjfAvgTurnaroundTime">0 hours</td>
+          </tr>
+          <tr>
+            <td>Context Switch Overhead</td>
+            <td id="fcfsContextSwitchOverhead">0 hours (0 switches)</td>
+            <td id="sjfContextSwitchOverhead">0 hours (0 switches)</td>
+          </tr>
+        </table>
+      </div>
     </div>
   </div>
-
 
   <script src="script.js"></script>
 </body>
